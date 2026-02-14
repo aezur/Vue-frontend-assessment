@@ -1,13 +1,10 @@
 import api from "./api";
+import { CampaignSchema } from "@/validators/campaign";
+import { PaginationSchema } from "@/validators/pagination";
 
 /**
  * Campaign Service
  * Handles all campaign-related API calls
- */
-
-/**
- * Fetch all campaigns
- * @returns {Promise<Array>} Array of campaign objects
  */
 
 /**
@@ -17,9 +14,33 @@ import api from "./api";
  */
 export const getCampaigns = async (params = {}) => {
   const response = await api.get("/campaigns", { params });
+  const campaigns = response.data.data;
+  const pagination = response.data.pagination;
+
+  // Validate campaigns
+  const validatedCampaigns = campaigns.map((campaign) => {
+    const result = CampaignSchema.safeParse(campaign);
+    if (!result.success) {
+      console.error("Invalid campaign data received:", result.error, campaign);
+      throw new Error(result.error.message);
+    }
+    return result.data;
+  });
+
+  // Validate pagination
+  const paginationResult = PaginationSchema.safeParse(pagination);
+  if (!paginationResult.success) {
+    console.error(
+      "Invalid pagination data received:",
+      paginationResult.error,
+      pagination,
+    );
+    throw new Error(paginationResult.error.message);
+  }
+
   return {
-    data: response.data.data,
-    pagination: response.data.pagination,
+    data: validatedCampaigns,
+    pagination: paginationResult.data,
   };
 };
 
@@ -30,7 +51,16 @@ export const getCampaigns = async (params = {}) => {
  */
 export const getCampaignById = async (id) => {
   const response = await api.get(`/campaigns/${id}`);
-  return response.data.data;
+  const campaign = response.data.data;
+
+  // Validate campaign
+  const result = CampaignSchema.safeParse(campaign);
+  if (!result.success) {
+    console.error("Invalid campaign data received:", result.error, campaign);
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
 };
 
 /**
@@ -47,7 +77,16 @@ export const getCampaignById = async (id) => {
  */
 export const createCampaign = async (campaignData) => {
   const response = await api.post("/campaigns", campaignData);
-  return response.data.data;
+  const campaign = response.data.data;
+
+  // Validate campaign
+  const result = CampaignSchema.safeParse(campaign);
+  if (!result.success) {
+    console.error("Invalid campaign data received:", result.error, campaign);
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
 };
 
 /**
@@ -58,7 +97,16 @@ export const createCampaign = async (campaignData) => {
  */
 export const updateCampaign = async (id, campaignData) => {
   const response = await api.put(`/campaigns/${id}`, campaignData);
-  return response.data.data;
+  const campaign = response.data.data;
+
+  // Validate campaign
+  const result = CampaignSchema.safeParse(campaign);
+  if (!result.success) {
+    console.error("Invalid campaign data received:", result.error, campaign);
+    throw new Error(result.error.message);
+  }
+
+  return result.data;
 };
 
 /**

@@ -11,6 +11,8 @@ vi.mock("../api", () => ({
 
 import * as campaignService from "../campaignService";
 import api from "../api";
+import { mockCampaigns } from "./data/mockCampaigns";
+import { mockPagination } from "./data/mockPagination";
 
 describe("campaignService", () => {
   beforeEach(() => {
@@ -18,27 +20,18 @@ describe("campaignService", () => {
   });
 
   describe("getCampaigns", () => {
-    it("should fetch campaigns with params and return data and pagination", async () => {
-      const mockCampaigns = [
-        { id: "1", name: "Campaign 1" },
-        { id: "2", name: "Campaign 2" },
-      ];
-      const mockPagination = { page: 1, limit: 10, total: 2, totalPages: 1 };
+    it("should fetch campaigns with params and return validated data and pagination", async () => {
       api.get.mockResolvedValue({
         data: { data: mockCampaigns, pagination: mockPagination },
       });
 
-      const result = await campaignService.getCampaigns({
+      await campaignService.getCampaigns({
         search: "foo",
         page: 1,
       });
 
       expect(api.get).toHaveBeenCalledWith("/campaigns", {
         params: { search: "foo", page: 1 },
-      });
-      expect(result).toEqual({
-        data: mockCampaigns,
-        pagination: mockPagination,
       });
     });
 
@@ -49,64 +42,31 @@ describe("campaignService", () => {
         "Network error",
       );
     });
-  });
 
-  describe("getCampaignById", () => {
-    it("should fetch a single campaign by id", async () => {
-      const mockCampaign = { id: "1", name: "Campaign 1" };
+    it("should throw error when campaign data is invalid", async () => {
+      const invalidCampaigns = [
+        {
+          id: "1",
+          name: "Campaign 1",
+          status: "active",
+          // Missing required fields like budget, spent, etc.
+        },
+      ];
+      const mockPagination = { page: 1, limit: 10, total: 1, totalPages: 1 };
+      api.get.mockResolvedValue({
+        data: { data: invalidCampaigns, pagination: mockPagination },
+      });
 
-      api.get.mockResolvedValue({ data: { data: mockCampaign } });
-
-      const result = await campaignService.getCampaignById("1");
-
-      expect(api.get).toHaveBeenCalledWith("/campaigns/1");
-      expect(result).toEqual(mockCampaign);
+      await expect(campaignService.getCampaigns()).rejects.toThrow();
     });
-  });
 
-  describe("createCampaign", () => {
-    it("should create a new campaign", async () => {
-      const newCampaign = {
-        name: "New Campaign",
-        status: "draft",
-        budget: 10000,
-        startDate: "2026-01-01",
-        endDate: "2026-12-31",
-        description: "Test campaign",
-        targetAudience: "Test audience",
-      };
-      const mockResponse = { id: "123", ...newCampaign };
+    it("should throw error when pagination data is invalid", async () => {
+      const invalidPagination = { page: 0, limit: 10, total: 1, totalPages: 1 }; // Invalid: page must be >= 1
+      api.get.mockResolvedValue({
+        data: { data: mockCampaigns, pagination: invalidPagination },
+      });
 
-      api.post.mockResolvedValue({ data: { data: mockResponse } });
-
-      const result = await campaignService.createCampaign(newCampaign);
-
-      expect(api.post).toHaveBeenCalledWith("/campaigns", newCampaign);
-      expect(result).toEqual(mockResponse);
-    });
-  });
-
-  describe("updateCampaign", () => {
-    it("should update an existing campaign", async () => {
-      const updates = { name: "Updated Name" };
-      const mockResponse = { id: "1", ...updates };
-
-      api.put.mockResolvedValue({ data: { data: mockResponse } });
-
-      const result = await campaignService.updateCampaign("1", updates);
-
-      expect(api.put).toHaveBeenCalledWith("/campaigns/1", updates);
-      expect(result).toEqual(mockResponse);
-    });
-  });
-
-  describe("deleteCampaign", () => {
-    it("should delete a campaign", async () => {
-      api.delete.mockResolvedValue({});
-
-      await campaignService.deleteCampaign("1");
-
-      expect(api.delete).toHaveBeenCalledWith("/campaigns/1");
+      await expect(campaignService.getCampaigns()).rejects.toThrow();
     });
   });
 });

@@ -2,25 +2,15 @@
   <nav class="pagination" v-if="pagination">
     <div class="pagination__col"></div>
     <div class="pagination__col pagination__center">
-      <Button
-        size="sm"
-        variant="primary"
-        :disabled="pagination.page === 1"
-        @click="changePage(pagination.page - 1)"
-        aria-label="Previous page"
-      >
+      <Button size="sm" variant="primary" :disabled="pagination.page === 1" @click="changePage(pagination.page - 1)"
+        aria-label="Previous page">
         &#8592; Prev
       </Button>
       <span class="pagination__info">
         Page {{ pagination.page }} of {{ pagination.totalPages }}
       </span>
-      <Button
-        size="sm"
-        variant="primary"
-        :disabled="pagination.page === pagination.totalPages"
-        @click="changePage(pagination.page + 1)"
-        aria-label="Next page"
-      >
+      <Button size="sm" variant="primary" :disabled="pagination.page === pagination.totalPages"
+        @click="changePage(pagination.page + 1)" aria-label="Next page">
         Next &#8594;
       </Button>
     </div>
@@ -37,7 +27,7 @@
 </template>
 
 <script setup>
-import Button from './Button.vue';
+import Button from './BaseButton.vue';
 
 const props = defineProps({
   pagination: {
@@ -105,11 +95,13 @@ function onLimitChange() {
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
 .pagination__right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
+
 .pagination__limit-label {
   font-size: 1rem;
   font-weight: 500;
@@ -118,6 +110,7 @@ function onLimitChange() {
   align-items: center;
   gap: 0.5rem;
 }
+
 .pagination__select {
   margin: 0 0.2rem;
   padding: 0.5rem 0.8rem;
@@ -131,22 +124,28 @@ function onLimitChange() {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
+
 .pagination__select:focus {
   border: 2px solid var(--color-primary);
   box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.1);
 }
+
 .pagination__select:hover {
   border-color: var(--color-primary-accent);
 }
+
 @media (max-width: 600px) {
   .pagination {
     grid-template-columns: 1fr;
     gap: 1rem;
     padding: 1rem 0.5rem;
   }
-  .pagination__center, .pagination__right {
+
+  .pagination__center,
+  .pagination__right {
     justify-content: center;
   }
+
   .pagination__info {
     order: -1;
   }

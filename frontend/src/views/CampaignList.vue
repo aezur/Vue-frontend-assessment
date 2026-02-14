@@ -24,7 +24,7 @@
 
 <script setup>
 import CampaignListDisplay from '../components/campaigns/CampaignListDisplay.vue';
-import Pagination from '../components/core/Pagination.vue';
+import Pagination from '../components/core/PaginationControl.vue';
 import SearchBar from '../components/core/SearchBar.vue';
 import SearchFilters from '../components/campaigns/SearchFilters.vue';
 import { onMounted, watch } from 'vue'

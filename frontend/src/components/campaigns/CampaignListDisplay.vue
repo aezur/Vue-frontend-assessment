@@ -27,7 +27,9 @@ import List from '@/components/core/List.vue'
 import CampaignListItem from './CampaignListItem.vue'
 import LoadingSpinner from '@/components/core/LoadingSpinner.vue'
 import ErrorMessage from '@/components/core/ErrorMessage.vue'
-import router from '@/router';
+import { useViewTransitionRouter } from '@/composables/useViewTransitionRouter';
+
+const { push } = useViewTransitionRouter();
 
 defineProps({
   campaigns: {
@@ -39,6 +41,6 @@ defineProps({
 })
 
 function onCampaignClick(campaign) {
-  router.push({ name: "campaign-detail", params: { id: campaign.id } });
+  push({ name: "campaign-detail", params: { id: campaign.id } });
 }
 </script>

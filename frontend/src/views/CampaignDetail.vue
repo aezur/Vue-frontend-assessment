@@ -23,15 +23,15 @@
 </template>
 
 <script setup>
-import CampaignDetailsHeader from '@/components/campaigns/CampaignDetailsHeader.vue'
-import ErrorMessage from '@/components/core/ErrorMessage.vue'
-import MetricsDisplay from '@/components/campaigns/MetricsDisplay.vue'
-import HistoryDisplay from '@/components/campaigns/HistoryDisplay.vue'
-import FinancialsDisplay from '@/components/campaigns/FinancialsDisplay.vue'
-import LoadingSpinner from '@/components/core/LoadingSpinner.vue'
-import { useCampaign } from '@/composables/useCampaign'
+import CampaignDetailsHeader from "@/components/campaigns/CampaignDetailsHeader.vue";
+import ErrorMessage from "@/components/core/ErrorMessage.vue";
+import MetricsDisplay from "@/components/campaigns/MetricsDisplay.vue";
+import HistoryDisplay from "@/components/campaigns/HistoryDisplay.vue";
+import FinancialsDisplay from "@/components/campaigns/FinancialsDisplay.vue";
+import LoadingSpinner from "@/components/core/LoadingSpinner.vue";
+import { useCampaign } from "@/composables/useCampaign";
 
-const { campaign, loading, error } = useCampaign()
+const { campaign, loading, error } = useCampaign();
 </script>
 
 <style scoped>

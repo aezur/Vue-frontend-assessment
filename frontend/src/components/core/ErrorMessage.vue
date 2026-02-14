@@ -16,6 +16,6 @@ defineProps({
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-error)
+  color: var(--color-error);
 }
 </style>

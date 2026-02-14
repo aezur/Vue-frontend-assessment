@@ -1,6 +1,6 @@
 <template>
   <div class="audience-display">
-    <PhUsersThree :size="24" style="color: var(--color-primary);" />
+    <PhUsersThree :size="24" style="color: var(--color-primary)" />
     <div class="audience-text">
       <p>{{ audience }}</p>
     </div>
@@ -8,14 +8,14 @@
 </template>
 
 <script setup>
-import { PhUsersThree } from '@phosphor-icons/vue';
+import { PhUsersThree } from "@phosphor-icons/vue";
 
 defineProps({
   audience: {
     type: String,
-    required: true
+    required: true,
   },
-})
+});
 </script>
 
 <style scoped>

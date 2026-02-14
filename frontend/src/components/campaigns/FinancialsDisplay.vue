@@ -19,14 +19,14 @@
 </template>
 
 <script setup>
-import { formatCurrency } from '@/utils/formatters'
-import { computed } from 'vue'
+import { formatCurrency } from "@/utils/formatters";
+import { computed } from "vue";
 
 const props = defineProps({
-  campaign: { type: Object, required: true }
-})
+  campaign: { type: Object, required: true },
+});
 
-const remaining = computed(() => props.campaign.budget - props.campaign.spent)
+const remaining = computed(() => props.campaign.budget - props.campaign.spent);
 </script>
 
 <style scoped>
@@ -42,13 +42,13 @@ const remaining = computed(() => props.campaign.budget - props.campaign.spent)
   gap: 16px;
 }
 
-@media (max-width:1023px) {
+@media (max-width: 1023px) {
   .financial-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
   .financial-grid {
     grid-template-columns: 1fr;
   }

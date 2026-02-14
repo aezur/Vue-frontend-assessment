@@ -1,6 +1,5 @@
 <template>
   <div class="header mb-4">
-
     <div class="header-top mt-1">
       <div @click="back" class="header-btn">
         <PhArrowLeft :size="16" /><span>Back</span>
@@ -10,24 +9,33 @@
       </router-link>
     </div>
 
-    <h1 class="mb-2" :style="{ viewTransitionName: `item-title-${campaign.id}` }">{{ campaign.name }}</h1>
+    <h1
+      class="mb-2"
+      :style="{ viewTransitionName: `item-title-${campaign.id}` }"
+    >
+      {{ campaign.name }}
+    </h1>
 
     <CampaignStatusPill class="mb-2" :status="campaign.status" />
 
     <AudienceDisplay class="mb-2" :audience="campaign.targetAudience" />
 
-    <DateDisplay class="mb-4" :startDate="campaign.startDate" :endDate="campaign.endDate" />
+    <DateDisplay
+      class="mb-4"
+      :startDate="campaign.startDate"
+      :endDate="campaign.endDate"
+    />
 
     <p class="description">{{ campaign.description }}</p>
   </div>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { PhArrowLeft, PhPencilSimple } from '@phosphor-icons/vue';
-import CampaignStatusPill from './CampaignStatusPill.vue';
-import DateDisplay from '@/components/core/DateDisplay.vue';
-import AudienceDisplay from './AudienceDisplay.vue';
+import { useRouter } from "vue-router";
+import { PhArrowLeft, PhPencilSimple } from "@phosphor-icons/vue";
+import CampaignStatusPill from "./CampaignStatusPill.vue";
+import DateDisplay from "@/components/core/DateDisplay.vue";
+import AudienceDisplay from "./AudienceDisplay.vue";
 
 defineProps({
   campaign: {

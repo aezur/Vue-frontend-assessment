@@ -1,10 +1,19 @@
 <template>
   <fieldset>
     <legend>Metrics</legend>
-    <div v-for="row in metricsRows" :key="row.map(f => f.name).join('-')" class="form-row">
+    <div
+      v-for="row in metricsRows"
+      :key="row.map((f) => f.name).join('-')"
+      class="form-row"
+    >
       <div v-for="field in row" :key="field.name" class="form-group">
         <label>{{ field.label }}</label>
-        <Field :name="field.name" :type="field.type" :min="field.min" :step="field.step" />
+        <Field
+          :name="field.name"
+          :type="field.type"
+          :min="field.min"
+          :step="field.step"
+        />
         <ErrorMessage :name="field.name" class="error-message" />
       </div>
     </div>
@@ -12,22 +21,32 @@
 </template>
 
 <script setup>
-import { Field, ErrorMessage } from 'vee-validate'
+import { Field, ErrorMessage } from "vee-validate";
 
 const metricsRows = [
   [
-    { name: 'metrics.impressions', label: 'Impressions', type: 'number', min: 0 },
-    { name: 'metrics.clicks', label: 'Clicks', type: 'number', min: 0 },
+    {
+      name: "metrics.impressions",
+      label: "Impressions",
+      type: "number",
+      min: 0,
+    },
+    { name: "metrics.clicks", label: "Clicks", type: "number", min: 0 },
   ],
   [
-    { name: 'metrics.conversions', label: 'Conversions', type: 'number', min: 0 },
-    { name: 'metrics.ctr', label: 'CTR', type: 'number', min: 0, step: 0.01 },
+    {
+      name: "metrics.conversions",
+      label: "Conversions",
+      type: "number",
+      min: 0,
+    },
+    { name: "metrics.ctr", label: "CTR", type: "number", min: 0, step: 0.01 },
   ],
   [
-    { name: 'metrics.cpc', label: 'CPC', type: 'number', min: 0, step: 0.01 },
-    { name: 'metrics.roas', label: 'ROAS', type: 'number', min: 0, step: 0.01 },
+    { name: "metrics.cpc", label: "CPC", type: "number", min: 0, step: 0.01 },
+    { name: "metrics.roas", label: "ROAS", type: "number", min: 0, step: 0.01 },
   ],
-]
+];
 </script>
 
 <style scoped>
@@ -57,7 +76,9 @@ textarea {
   border: 1px solid var(--color-border);
   border-radius: 0.375rem;
   font-size: 1rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 input:focus,

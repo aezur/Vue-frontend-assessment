@@ -1,10 +1,14 @@
 <template>
-  <button :class="[
-    'button',
-    `button--${size}`,
-    `button--${variant}`,
-    { 'button--disabled': disabled }
-  ]" :disabled="disabled" v-bind="$attrs">
+  <button
+    :class="[
+      'button',
+      `button--${size}`,
+      `button--${variant}`,
+      { 'button--disabled': disabled },
+    ]"
+    :disabled="disabled"
+    v-bind="$attrs"
+  >
     <slot />
   </button>
 </template>
@@ -13,13 +17,13 @@
 defineProps({
   size: {
     type: String,
-    default: 'md',
-    validator: (value) => ['sm', 'md', 'lg'].includes(value),
+    default: "md",
+    validator: (value) => ["sm", "md", "lg"].includes(value),
   },
   variant: {
     type: String,
-    default: 'primary',
-    validator: (value) => ['primary', 'secondary', 'outline'].includes(value),
+    default: "primary",
+    validator: (value) => ["primary", "secondary", "outline"].includes(value),
   },
   disabled: {
     type: Boolean,

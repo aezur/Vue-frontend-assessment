@@ -1,83 +1,120 @@
 <template>
   <div class="filters-container">
     <div class="search-bar__filters">
-      <Button v-for="filter in filters" :key="filter.value"
-        :class="['filter-btn', { active: selectedFilter === filter.value }]" variant="outline" size="sm"
-        @click="selectFilter(filter.value)" :title="filter.label">
+      <Button
+        v-for="filter in filters"
+        :key="filter.value"
+        :class="['filter-btn', { active: selectedFilter === filter.value }]"
+        variant="outline"
+        size="sm"
+        @click="selectFilter(filter.value)"
+        :title="filter.label"
+      >
         <component :is="filter.icon" :size="18" weight="duotone" />
         <Transition name="label">
-          <span v-if="selectedFilter === filter.value" class="filter-label">{{ filter.label }}</span>
+          <span v-if="selectedFilter === filter.value" class="filter-label">{{
+            filter.label
+          }}</span>
         </Transition>
       </Button>
     </div>
     <div class="date-filters">
-      <input id="startDate" type="date" v-model="localStartDate" class="date-input" />
-      <input id="endDate" type="date" v-model="localEndDate" class="date-input" />
+      <input
+        id="startDate"
+        type="date"
+        v-model="localStartDate"
+        class="date-input"
+      />
+      <input
+        id="endDate"
+        type="date"
+        v-model="localEndDate"
+        class="date-input"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import { PhCircle, PhPause, PhCheck, PhNotePencil, PhFunnel } from '@phosphor-icons/vue';
-import Button from '@/components/core/Button.vue';
+import { ref, watch } from "vue";
+import {
+  PhCircle,
+  PhPause,
+  PhCheck,
+  PhNotePencil,
+  PhFunnel,
+} from "@phosphor-icons/vue";
+import Button from "@/components/core/Button.vue";
 
 const props = defineProps({
   filterValue: {
     type: String,
-    default: '',
+    default: "",
   },
   startDate: {
     type: String,
-    default: '',
+    default: "",
   },
   endDate: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
-const emit = defineEmits(['update:filterValue', 'update:startDate', 'update:endDate']);
+const emit = defineEmits([
+  "update:filterValue",
+  "update:startDate",
+  "update:endDate",
+]);
 
 const selectedFilter = ref(props.filterValue);
 const localStartDate = ref(props.startDate);
 const localEndDate = ref(props.endDate);
 
 const filters = [
-  { value: '', label: 'All', icon: PhFunnel },
-  { value: 'active', label: 'Active', icon: PhCircle },
-  { value: 'paused', label: 'Paused', icon: PhPause },
-  { value: 'completed', label: 'Completed', icon: PhCheck },
-  { value: 'draft', label: 'Draft', icon: PhNotePencil },
+  { value: "", label: "All", icon: PhFunnel },
+  { value: "active", label: "Active", icon: PhCircle },
+  { value: "paused", label: "Paused", icon: PhPause },
+  { value: "completed", label: "Completed", icon: PhCheck },
+  { value: "draft", label: "Draft", icon: PhNotePencil },
 ];
 
-watch(() => props.filterValue, (newValue) => {
-  if (newValue !== selectedFilter.value) {
-    selectedFilter.value = newValue;
-  }
-});
+watch(
+  () => props.filterValue,
+  (newValue) => {
+    if (newValue !== selectedFilter.value) {
+      selectedFilter.value = newValue;
+    }
+  },
+);
 
-watch(() => props.startDate, (newValue) => {
-  if (newValue !== localStartDate.value) {
-    localStartDate.value = newValue;
-  }
-});
+watch(
+  () => props.startDate,
+  (newValue) => {
+    if (newValue !== localStartDate.value) {
+      localStartDate.value = newValue;
+    }
+  },
+);
 
-watch(() => props.endDate, (newValue) => {
-  if (newValue !== localEndDate.value) {
-    localEndDate.value = newValue;
-  }
-});
+watch(
+  () => props.endDate,
+  (newValue) => {
+    if (newValue !== localEndDate.value) {
+      localEndDate.value = newValue;
+    }
+  },
+);
 
 watch(localStartDate, (newValue) => {
   // Auto-swap if start date is after end date
   if (newValue && localEndDate.value && newValue > localEndDate.value) {
     const temp = localEndDate.value;
     localEndDate.value = newValue;
-    emit('update:startDate', temp);
-    emit('update:endDate', newValue);
+    emit("update:startDate", temp);
+    emit("update:endDate", newValue);
   } else {
-    emit('update:startDate', newValue);
+    emit("update:startDate", newValue);
   }
 });
 
@@ -86,16 +123,16 @@ watch(localEndDate, (newValue) => {
   if (newValue && localStartDate.value && newValue < localStartDate.value) {
     const temp = localStartDate.value;
     localStartDate.value = newValue;
-    emit('update:startDate', newValue);
-    emit('update:endDate', temp);
+    emit("update:startDate", newValue);
+    emit("update:endDate", temp);
   } else {
-    emit('update:endDate', newValue);
+    emit("update:endDate", newValue);
   }
 });
 
 function selectFilter(value) {
   selectedFilter.value = value;
-  emit('update:filterValue', value);
+  emit("update:filterValue", value);
 }
 </script>
 

@@ -1,7 +1,10 @@
 <template>
-  <Form :key="props.mode" :validation-schema="validationSchema" :initial-values="props.initialValues"
-    @submit="onSubmit">
-
+  <Form
+    :key="props.mode"
+    :validation-schema="validationSchema"
+    :initial-values="props.initialValues"
+    @submit="onSubmit"
+  >
     <basic-campaign-fields />
 
     <template v-if="props.mode === 'edit'">
@@ -9,35 +12,36 @@
     </template>
 
     <button type="submit" class="submit-button">
-      {{ props.mode === 'create' ? 'Create' : 'Update' }}
+      {{ props.mode === "create" ? "Create" : "Update" }}
     </button>
   </Form>
 </template>
 
 <script setup>
-import { Form } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { CreateCampaignSchema, UpdateCampaignSchema } from '@/validators/campaign'
-import { computed } from 'vue'
-import BasicCampaignFields from './form/BasicCampaignFields.vue'
-import MetricsFields from './form/MetricsFields.vue'
+import { Form } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import {
+  CreateCampaignSchema,
+  UpdateCampaignSchema,
+} from "@/validators/campaign";
+import { computed } from "vue";
+import BasicCampaignFields from "./form/BasicCampaignFields.vue";
+import MetricsFields from "./form/MetricsFields.vue";
 
 const props = defineProps({
-  mode: { type: String, default: 'create' },
+  mode: { type: String, default: "create" },
   initialValues: { type: Object, required: true },
-})
+});
 
 const validationSchema = computed(() =>
   toTypedSchema(
-    props.mode === 'create'
-      ? CreateCampaignSchema
-      : UpdateCampaignSchema
-  )
-)
+    props.mode === "create" ? CreateCampaignSchema : UpdateCampaignSchema,
+  ),
+);
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits(["submit"]);
 function onSubmit(values) {
-  emit('submit', values)
+  emit("submit", values);
 }
 </script>
 
@@ -68,7 +72,9 @@ textarea {
   border: 1px solid var(--color-border);
   border-radius: 0.375rem;
   font-size: 1rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 input:focus,

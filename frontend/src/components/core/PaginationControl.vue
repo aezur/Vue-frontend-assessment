@@ -2,23 +2,39 @@
   <nav class="pagination" v-if="pagination">
     <div class="pagination__col"></div>
     <div class="pagination__col pagination__center">
-      <Button size="sm" variant="primary" :disabled="pagination.page === 1" @click="changePage(pagination.page - 1)"
-        aria-label="Previous page">
+      <Button
+        size="sm"
+        variant="primary"
+        :disabled="pagination.page === 1"
+        @click="changePage(pagination.page - 1)"
+        aria-label="Previous page"
+      >
         &#8592; Prev
       </Button>
       <span class="pagination__info">
         Page {{ pagination.page }} of {{ pagination.totalPages }}
       </span>
-      <Button size="sm" variant="primary" :disabled="pagination.page === pagination.totalPages"
-        @click="changePage(pagination.page + 1)" aria-label="Next page">
+      <Button
+        size="sm"
+        variant="primary"
+        :disabled="pagination.page === pagination.totalPages"
+        @click="changePage(pagination.page + 1)"
+        aria-label="Next page"
+      >
         Next &#8594;
       </Button>
     </div>
     <div class="pagination__col pagination__right">
       <label class="pagination__limit-label">
         Show
-        <select v-model.number="selectedLimit" @change="onLimitChange" class="pagination__select">
-          <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
+        <select
+          v-model.number="selectedLimit"
+          @change="onLimitChange"
+          class="pagination__select"
+        >
+          <option v-for="size in pageSizes" :key="size" :value="size">
+            {{ size }}
+          </option>
         </select>
         per page
       </label>
@@ -27,7 +43,7 @@
 </template>
 
 <script setup>
-import Button from './BaseButton.vue';
+import Button from "./BaseButton.vue";
 
 const props = defineProps({
   pagination: {
@@ -39,16 +55,16 @@ const props = defineProps({
     default: () => [10, 25, 50],
   },
 });
-const emit = defineEmits(['page', 'limit']);
+const emit = defineEmits(["page", "limit"]);
 
-import { ref, watch } from 'vue';
+import { ref, watch } from "vue";
 const selectedLimit = ref(props.pagination.limit);
 
 watch(
   () => props.pagination.limit,
   (newLimit) => {
     selectedLimit.value = newLimit;
-  }
+  },
 );
 
 function changePage(newPage) {
@@ -57,12 +73,12 @@ function changePage(newPage) {
     newPage <= props.pagination.totalPages &&
     newPage !== props.pagination.page
   ) {
-    emit('page', newPage);
+    emit("page", newPage);
   }
 }
 
 function onLimitChange() {
-  emit('limit', selectedLimit.value);
+  emit("limit", selectedLimit.value);
 }
 </script>
 

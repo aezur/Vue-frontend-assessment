@@ -1,6 +1,8 @@
 <template>
   <li class="campaign-list-item" @click="onClick">
-    <h3 :style="{ viewTransitionName: `item-title-${campaign.id}` }">{{ campaign.name }}</h3>
+    <h3 :style="{ viewTransitionName: `item-title-${campaign.id}` }">
+      {{ campaign.name }}
+    </h3>
     <div class="campaign-details">
       <p>Budget: {{ formatCurrency(campaign.budget) }}</p>
       <p>Status: {{ campaign.status }}</p>
@@ -11,7 +13,7 @@
 </template>
 
 <script setup>
-import { formatCurrency, formatDate } from '../../utils/formatters';
+import { formatCurrency, formatDate } from "../../utils/formatters";
 
 defineProps({
   campaign: {

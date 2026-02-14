@@ -13,17 +13,20 @@
     </template>
 
     <template #item="{ item }">
-      <campaign-list-item :campaign="item" @click="() => onCampaignClick(item)" />
+      <campaign-list-item
+        :campaign="item"
+        @click="() => onCampaignClick(item)"
+      />
     </template>
   </List>
 </template>
 
 <script setup>
-import List from '@/components/core/List.vue'
-import CampaignListItem from './CampaignListItem.vue'
-import LoadingSpinner from '@/components/core/LoadingSpinner.vue'
-import ErrorMessage from '@/components/core/ErrorMessage.vue'
-import { useViewTransitionRouter } from '@/composables/useViewTransitionRouter';
+import List from "@/components/core/List.vue";
+import CampaignListItem from "./CampaignListItem.vue";
+import LoadingSpinner from "@/components/core/LoadingSpinner.vue";
+import ErrorMessage from "@/components/core/ErrorMessage.vue";
+import { useViewTransitionRouter } from "@/composables/useViewTransitionRouter";
 
 const { push } = useViewTransitionRouter();
 
@@ -33,8 +36,8 @@ defineProps({
     required: true,
   },
   loading: Boolean,
-  error: String
-})
+  error: String,
+});
 
 function onCampaignClick(campaign) {
   push({ name: "campaign-detail", params: { id: campaign.id } });

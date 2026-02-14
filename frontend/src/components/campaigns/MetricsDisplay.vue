@@ -31,11 +31,11 @@
 </template>
 
 <script setup>
-import { formatCurrency } from '@/utils/formatters'
+import { formatCurrency } from "@/utils/formatters";
 
 defineProps({
-  metrics: { type: Object, required: true }
-})
+  metrics: { type: Object, required: true },
+});
 </script>
 
 <style scoped>

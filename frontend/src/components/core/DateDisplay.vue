@@ -1,6 +1,6 @@
 <template>
   <div class="date-display">
-    <PhCalendarBlank :size="24" style="color: var(--color-primary);" />
+    <PhCalendarBlank :size="24" style="color: var(--color-primary)" />
     <div class="date-text">
       <p>{{ formatDate(startDate) }}</p>
       <p>-</p>
@@ -10,19 +10,19 @@
 </template>
 
 <script setup>
-import { formatDate } from '@/utils/formatters';
-import { PhCalendarBlank } from '@phosphor-icons/vue';
+import { formatDate } from "@/utils/formatters";
+import { PhCalendarBlank } from "@phosphor-icons/vue";
 
 defineProps({
   startDate: {
     type: String,
-    required: true
+    required: true,
   },
   endDate: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <style scoped>

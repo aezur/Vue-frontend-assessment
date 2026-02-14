@@ -13,6 +13,6 @@
 defineProps({
   items: { type: Array, required: true },
   loading: Boolean,
-  error: String
-})
+  error: String,
+});
 </script>

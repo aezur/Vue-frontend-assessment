@@ -1,20 +1,25 @@
 <template>
   <div class="search-bar">
-    <input v-model="localValue" type="search" :placeholder="placeholder" class="search-bar__input" />
+    <input
+      v-model="localValue"
+      type="search"
+      :placeholder="placeholder"
+      class="search-bar__input"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch } from "vue";
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: '',
+    default: "",
   },
   placeholder: {
     type: String,
-    default: 'Search items...',
+    default: "Search items...",
   },
   debounce: {
     type: Number,
@@ -22,7 +27,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const localValue = ref(props.modelValue);
 let timeoutId = null;
@@ -33,15 +38,18 @@ watch(localValue, (newValue) => {
   }
 
   timeoutId = setTimeout(() => {
-    emit('update:modelValue', newValue);
+    emit("update:modelValue", newValue);
   }, props.debounce);
 });
 
-watch(() => props.modelValue, (newValue) => {
-  if (newValue !== localValue.value) {
-    localValue.value = newValue;
-  }
-});
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue !== localValue.value) {
+      localValue.value = newValue;
+    }
+  },
+);
 </script>
 
 <style scoped>

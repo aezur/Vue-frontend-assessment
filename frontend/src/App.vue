@@ -8,11 +8,11 @@
         </nav>
       </div>
     </header>
-    
+
     <main class="app-main">
       <router-view />
     </main>
-    
+
     <footer class="app-footer">
       <div class="container">
         <p>&copy; 2024 Johnson Group - Frontend Developer Assessment</p>

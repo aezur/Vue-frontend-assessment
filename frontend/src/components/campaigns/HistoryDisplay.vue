@@ -6,7 +6,10 @@
         <div class="history-date">{{ formatDate(item.date) }}</div>
         <div class="history-action">{{ item.action }}</div>
         <!-- TODO: Restyle this and also add scroll -->
-        <div v-if="item.changes && Object.keys(item.changes).length" class="history-changes">
+        <div
+          v-if="item.changes && Object.keys(item.changes).length"
+          class="history-changes"
+        >
           {{ JSON.stringify(item.changes, null, 2) }}
         </div>
       </li>
@@ -16,11 +19,11 @@
 </template>
 
 <script setup>
-import { formatDate } from '@/utils/formatters'
+import { formatDate } from "@/utils/formatters";
 
 defineProps({
-  history: { type: Array, required: true }
-})
+  history: { type: Array, required: true },
+});
 </script>
 
 <style scoped>

@@ -1,13 +1,24 @@
 <template>
-  <div v-for="row in formRows" :key="row.map(f => f.name).join('-')" class="form-row">
+  <div
+    v-for="row in formRows"
+    :key="row.map((f) => f.name).join('-')"
+    class="form-row"
+  >
     <!-- 2-col fields -->
     <div v-for="field in row" :key="field.name" class="form-group">
       <label>{{ field.label }}</label>
       <Field v-if="field.type === 'select'" :name="field.name" as="select">
-        <option v-for="option in field.options" :key="option" :value="option">{{
-          option.charAt(0).toUpperCase() + option.slice(1) }}</option>
+        <option v-for="option in field.options" :key="option" :value="option">
+          {{ option.charAt(0).toUpperCase() + option.slice(1) }}
+        </option>
       </Field>
-      <Field v-else-if="field.type === 'number'" :name="field.name" type="number" :min="field.min" :step="field.step" />
+      <Field
+        v-else-if="field.type === 'number'"
+        :name="field.name"
+        type="number"
+        :min="field.min"
+        :step="field.step"
+      />
       <Field v-else-if="field.type === 'date'" :name="field.name" type="date" />
       <Field v-else :name="field.name" type="text" />
       <ErrorMessage :name="field.name" class="error-message" />
@@ -22,27 +33,32 @@
 </template>
 
 <script setup>
-import { Field, ErrorMessage } from 'vee-validate'
+import { Field, ErrorMessage } from "vee-validate";
 
 const formRows = [
   [
-    { name: 'name', label: 'Name', type: 'text' },
-    { name: 'status', label: 'Status', type: 'select', options: ['draft', 'active', 'paused', 'completed'] },
+    { name: "name", label: "Name", type: "text" },
+    {
+      name: "status",
+      label: "Status",
+      type: "select",
+      options: ["draft", "active", "paused", "completed"],
+    },
   ],
   [
-    { name: 'budget', label: 'Budget', type: 'number', min: 0, step: 0.01 },
-    { name: 'spent', label: 'Spent', type: 'number', min: 0, step: 0.01 },
+    { name: "budget", label: "Budget", type: "number", min: 0, step: 0.01 },
+    { name: "spent", label: "Spent", type: "number", min: 0, step: 0.01 },
   ],
   [
-    { name: 'startDate', label: 'Start Date', type: 'date' },
-    { name: 'endDate', label: 'End Date', type: 'date' },
+    { name: "startDate", label: "Start Date", type: "date" },
+    { name: "endDate", label: "End Date", type: "date" },
   ],
-]
+];
 
 const singleFields = [
-  { name: 'description', label: 'Description', type: 'textarea' },
-  { name: 'targetAudience', label: 'Target Audience', type: 'textarea' },
-]
+  { name: "description", label: "Description", type: "textarea" },
+  { name: "targetAudience", label: "Target Audience", type: "textarea" },
+];
 </script>
 
 <style scoped>
@@ -72,7 +88,9 @@ textarea {
   border: 1px solid var(--color-border);
   border-radius: 0.375rem;
   font-size: 1rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 input:focus,

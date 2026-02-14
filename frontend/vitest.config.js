@@ -7,6 +7,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       globals: true,
+      silent: true, // Suppress console output during tests
       environment: "jsdom",
       exclude: [...configDefaults.exclude, "e2e/*"],
       root: fileURLToPath(new URL("./", import.meta.url)),

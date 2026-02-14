@@ -1,8 +1,7 @@
 <template>
-  <!-- TODO: Add skeleton loader UI -->
   <div class="container">
     <!-- TODO: Add 404 page or display -->
-    <error-message v-if="store.error" :message="store.error" @close="store.clearError" />
+    <error-message v-if="error" :message="error" />
 
     <template v-if="campaign">
       <campaign-details-header :campaign="campaign" />
@@ -15,15 +14,15 @@
       </div>
     </template>
 
-    <div v-else-if="store.loading">
+    <div v-else-if="loading">
       <loading-spinner />
     </div>
+
+    <error-message v-else message="Campaign not found." />
   </div>
 </template>
 
 <script setup>
-import { onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { useCampaignStore } from '@/stores/campaigns'
 import CampaignDetailsHeader from '@/components/campaigns/CampaignDetailsHeader.vue'
 import ErrorMessage from '@/components/core/ErrorMessage.vue'
@@ -31,17 +30,9 @@ import MetricsDisplay from '@/components/campaigns/MetricsDisplay.vue'
 import HistoryDisplay from '@/components/campaigns/HistoryDisplay.vue'
 import FinancialsDisplay from '@/components/campaigns/FinancialsDisplay.vue'
 import LoadingSpinner from '@/components/core/LoadingSpinner.vue'
+import { useCampaign } from '@/composables/useCampaign'
 
-const route = useRoute()
-const store = useCampaignStore()
-
-const campaign = computed(() => store.getCampaignById(route.params.id))
-
-onMounted(async () => {
-  if (!campaign.value) {
-    await store.fetchCampaignById(route.params.id);
-  }
-})
+const { campaign, loading, error } = useCampaign()
 </script>
 
 <style scoped>

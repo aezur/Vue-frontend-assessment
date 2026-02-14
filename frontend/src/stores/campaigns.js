@@ -12,6 +12,8 @@ export const useCampaignStore = defineStore("campaigns", () => {
   // Query params for backend
   const search = ref("");
   const status = ref("");
+  const startDate = ref("");
+  const endDate = ref("");
   const page = ref(1);
   const limit = ref(10);
   const sortBy = ref("updatedAt");
@@ -32,6 +34,8 @@ export const useCampaignStore = defineStore("campaigns", () => {
       const { data, pagination: pag } = await campaignService.getCampaigns({
         search: search.value || undefined,
         status: status.value || undefined,
+        startDate: startDate.value || undefined,
+        endDate: endDate.value || undefined,
         page: page.value,
         limit: limit.value,
         sortBy: sortBy.value,
@@ -205,6 +209,8 @@ export const useCampaignStore = defineStore("campaigns", () => {
     error,
     search,
     status,
+    startDate,
+    endDate,
     page,
     limit,
     sortBy,

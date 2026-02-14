@@ -1,19 +1,15 @@
 <template>
-  <List
-    :items="campaigns"
-    :loading="loading"
-    :error="error"
-  >
+  <List :items="campaigns" :loading="loading" :error="error">
     <template #loading>
       <loading-spinner />
     </template>
 
     <template #error="{ error }">
-      <error-message :message="error"  />
+      <error-message :message="error" />
     </template>
 
     <template #empty>
-      <p>No campaigns found</p>
+      <p class="text-center">No campaigns found</p>
     </template>
 
     <template #item="{ item }">

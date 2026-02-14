@@ -1,16 +1,12 @@
 <template>
   <div class="search-bar">
-    <input
-      v-model="localValue"
-      type="search"
-      :placeholder="placeholder"
-      class="search-bar__input"
-    />
+    <input v-model="localValue" type="search" :placeholder="placeholder" class="search-bar__input" />
   </div>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue';
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -66,5 +62,42 @@ watch(() => props.modelValue, (newValue) => {
   outline: none;
   border-color: var(--color-primary-accent);
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.search-bar__filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5em 1em;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.filter-btn:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-card);
+}
+
+.filter-btn.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.filter-btn:focus {
+  outline: 2px solid var(--color-primary-accent);
+  outline-offset: 2px;
 }
 </style>

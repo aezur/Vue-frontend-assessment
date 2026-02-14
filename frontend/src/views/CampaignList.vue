@@ -8,16 +8,16 @@
         </router-link>
       </div>
 
+      <search-filters class="mb-2" v-model:filter-value="campaignStore.status"
+        v-model:start-date="campaignStore.startDate" v-model:end-date="campaignStore.endDate" />
+
       <search-bar class="mb-4" v-model="campaignStore.search" placeholder="Search campaigns..." />
 
-      <campaign-list-display :campaigns="campaignStore.campaigns" :loading="campaignStore.loading" :error="campaignStore.error" />
+      <campaign-list-display :campaigns="campaignStore.campaigns" :loading="campaignStore.loading"
+        :error="campaignStore.error" />
 
-      <pagination
-        :pagination="campaignStore.pagination"
-        :page-sizes="[3, 5, 10]"
-        @page="onPageChange"
-        @limit="onLimitChange"
-      />
+      <pagination :pagination="campaignStore.pagination" :page-sizes="[3, 5, 10]" @page="onPageChange"
+        @limit="onLimitChange" />
     </div>
   </div>
 </template>
@@ -26,6 +26,7 @@
 import CampaignListDisplay from '../components/campaigns/CampaignListDisplay.vue';
 import Pagination from '../components/core/Pagination.vue';
 import SearchBar from '../components/core/SearchBar.vue';
+import SearchFilters from '../components/campaigns/SearchFilters.vue';
 import { onMounted, watch } from 'vue'
 import { useCampaignStore } from '../stores/campaigns';
 
@@ -35,9 +36,9 @@ onMounted(async () => {
   await campaignStore.fetchCampaigns();
 });
 
-// Refetch campaigns when search or limit changes
+// Refetch campaigns when search, status, dates or limit changes
 watch(
-  () => [campaignStore.search, campaignStore.limit],
+  () => [campaignStore.search, campaignStore.status, campaignStore.startDate, campaignStore.endDate, campaignStore.limit],
   async () => {
     await campaignStore.fetchCampaigns();
   }

@@ -1,20 +1,16 @@
 <template>
-  <button
-    :class="[
-      'button',
-      `button--${size}`,
-      `button--${variant}`,
-      { 'button--disabled': disabled }
-    ]"
-    :disabled="disabled"
-    v-bind="$attrs"
-  >
+  <button :class="[
+    'button',
+    `button--${size}`,
+    `button--${variant}`,
+    { 'button--disabled': disabled }
+  ]" :disabled="disabled" v-bind="$attrs">
     <slot />
   </button>
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   size: {
     type: String,
     default: 'md',

@@ -13,7 +13,7 @@
 <script setup>
 import { formatCurrency, formatDate } from '../../utils/formatters';
 
-const props = defineProps({
+defineProps({
   campaign: {
     type: Object,
     required: true,

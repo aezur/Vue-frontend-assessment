@@ -13,7 +13,7 @@
 import { formatDate } from '@/utils/formatters';
 import { PhCalendarBlank } from '@phosphor-icons/vue';
 
-const props = defineProps({
+defineProps({
   startDate: {
     type: String,
     required: true
@@ -31,6 +31,7 @@ const props = defineProps({
   align-items: center;
   gap: 8px;
 }
+
 .date-text {
   display: flex;
   justify-content: space-evenly;

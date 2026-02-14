@@ -1,6 +1,6 @@
 <template>
   <div class="audience-display">
-    <PhUsersThree  :size="24" style="color: var(--color-primary);" />
+    <PhUsersThree :size="24" style="color: var(--color-primary);" />
     <div class="audience-text">
       <p>{{ audience }}</p>
     </div>
@@ -10,7 +10,7 @@
 <script setup>
 import { PhUsersThree } from '@phosphor-icons/vue';
 
-const props = defineProps({
+defineProps({
   audience: {
     type: String,
     required: true
@@ -24,6 +24,7 @@ const props = defineProps({
   align-items: center;
   gap: 8px;
 }
+
 .audience-text {
   display: flex;
   justify-content: space-evenly;

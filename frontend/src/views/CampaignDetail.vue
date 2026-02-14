@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import { useCampaignStore } from '@/stores/campaigns'
 import CampaignDetailsHeader from '@/components/campaigns/CampaignDetailsHeader.vue'
 import ErrorMessage from '@/components/core/ErrorMessage.vue'
 import MetricsDisplay from '@/components/campaigns/MetricsDisplay.vue'

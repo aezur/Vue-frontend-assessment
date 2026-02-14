@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   items: { type: Array, required: true },
   loading: Boolean,
   error: String

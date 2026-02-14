@@ -1,36 +1,61 @@
 <template>
-  <div class="campaign-detail">
-    <div class="container">
-      <!-- TODO: Implement campaign detail view -->
-      <!-- TODO: Display campaign information -->
-      <!-- TODO: Show metrics and history -->
-      <!-- TODO: Add back button -->
-      <!-- TODO: Handle loading and error states -->
-      
-      <p class="placeholder-text">
-        🚧 This is where you'll implement the campaign detail view.<br>
-        Check ASSESSMENT.md for detailed requirements.
-      </p>
+  <!-- TODO: Add skeleton loader UI -->
+  <div class="container">
+    <!-- TODO: Add 404 page or display -->
+    <error-message v-if="store.error" :message="store.error" @close="store.clearError" />
+
+    <template v-if="campaign">
+      <campaign-details-header :campaign="campaign" />
+
+      <financials-display class="mb-4" :campaign="campaign" />
+
+      <div class="metrics-history">
+        <metrics-display :metrics="campaign.metrics" />
+        <history-display :history="campaign.history" />
+      </div>
+    </template>
+
+    <div v-else-if="store.loading">
+      <loading-spinner />
     </div>
   </div>
 </template>
 
 <script setup>
-// TODO: Implement component logic
+import { onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useCampaignStore } from '@/stores/campaigns'
+import CampaignDetailsHeader from '@/components/campaigns/CampaignDetailsHeader.vue'
+import ErrorMessage from '@/components/core/ErrorMessage.vue'
+import MetricsDisplay from '@/components/campaigns/MetricsDisplay.vue'
+import HistoryDisplay from '@/components/campaigns/HistoryDisplay.vue'
+import FinancialsDisplay from '@/components/campaigns/FinancialsDisplay.vue'
+import LoadingSpinner from '@/components/core/LoadingSpinner.vue'
+
+const route = useRoute()
+const store = useCampaignStore()
+
+const campaign = computed(() => store.getCampaignById(route.params.id))
+
+onMounted(async () => {
+  if (!campaign.value) {
+    await store.fetchCampaignById(route.params.id);
+  }
+})
 </script>
 
 <style scoped>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.metrics-history {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
+  align-items: start;
 }
 
-.placeholder-text {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #666;
-  font-size: 1.1rem;
-  line-height: 1.6;
+@media (max-width: 767px) {
+  .metrics-history {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
 }
 </style>

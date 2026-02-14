@@ -6,7 +6,6 @@ export const useCampaignStore = defineStore("campaigns", () => {
   // State
   const campaigns = ref([]);
   const pagination = ref({ page: 1, limit: 10, total: 0, totalPages: 1 });
-  const currentCampaign = ref(null);
   const loading = ref(false);
   const error = ref(null);
 
@@ -51,16 +50,19 @@ export const useCampaignStore = defineStore("campaigns", () => {
   const fetchCampaignById = async (id) => {
     loading.value = true;
     error.value = null;
-    currentCampaign.value = null;
 
     try {
-      currentCampaign.value = await campaignService.getCampaignById(id);
+      const campaign = await campaignService.getCampaignById(id);
 
-      // Also update in campaigns array if it exists
+      // Also update in campaigns array if it exists, or add it
       const index = campaigns.value.findIndex((c) => c.id === id);
       if (index !== -1) {
-        campaigns.value[index] = currentCampaign.value;
+        campaigns.value[index] = campaign;
+      } else {
+        campaigns.value.push(campaign);
       }
+
+      return campaign;
     } catch (err) {
       error.value = handleError(err, "Failed to load campaign details");
 
@@ -68,6 +70,8 @@ export const useCampaignStore = defineStore("campaigns", () => {
       if (err.status === 404) {
         error.value = "Campaign not found";
       }
+
+      throw err;
     } finally {
       loading.value = false;
     }
@@ -100,16 +104,10 @@ export const useCampaignStore = defineStore("campaigns", () => {
     const index = campaigns.value.findIndex((c) => c.id === id);
     const originalCampaign =
       index !== -1 ? { ...campaigns.value[index] } : null;
-    const originalCurrentCampaign =
-      currentCampaign.value?.id === id ? { ...currentCampaign.value } : null;
 
     // Optimistic update - apply changes immediately
     if (index !== -1) {
       campaigns.value[index] = { ...campaigns.value[index], ...updates };
-    }
-
-    if (currentCampaign.value?.id === id) {
-      currentCampaign.value = { ...currentCampaign.value, ...updates };
     }
 
     try {
@@ -122,10 +120,6 @@ export const useCampaignStore = defineStore("campaigns", () => {
         if (currentIndex !== -1) {
           campaigns.value[currentIndex] = updatedCampaign;
         }
-
-        if (currentCampaign.value?.id === id) {
-          currentCampaign.value = updatedCampaign;
-        }
       }
 
       return updatedCampaign;
@@ -137,9 +131,6 @@ export const useCampaignStore = defineStore("campaigns", () => {
           if (currentIndex !== -1) {
             campaigns.value[currentIndex] = originalCampaign;
           }
-        }
-        if (originalCurrentCampaign) {
-          currentCampaign.value = originalCurrentCampaign;
         }
         error.value = handleError(err, "Failed to update campaign");
       } else {
@@ -169,11 +160,6 @@ export const useCampaignStore = defineStore("campaigns", () => {
 
     try {
       await campaignService.deleteCampaign(id);
-
-      // Clear currentCampaign if it's the deleted one
-      if (currentCampaign.value?.id === id) {
-        currentCampaign.value = null;
-      }
     } catch (err) {
       // Rollback on error - restore at original position
       deletedIds.value.delete(id);
@@ -217,7 +203,6 @@ export const useCampaignStore = defineStore("campaigns", () => {
     // State
     campaigns,
     pagination,
-    currentCampaign,
     loading,
     error,
     search,

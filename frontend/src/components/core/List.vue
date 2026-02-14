@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="loading" v-if="loading" />
+    <slot name="loading" v-if="loading && !items.length" />
     <slot name="error" v-else-if="error" :error="error" />
     <slot name="empty" v-else-if="items.length === 0" />
     <ul v-else>

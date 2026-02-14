@@ -3,35 +3,59 @@
     <div class="container">
       <div class="page-header">
         <h2>Campaigns</h2>
-        <router-link to="/campaigns/new" class="btn btn-primary">
+        <router-link to="/campaigns/new" class="button">
           + New Campaign
         </router-link>
       </div>
-      
-      <!-- TODO: Implement search and filters -->
-      <!-- TODO: Implement campaign list display -->
-      <!-- TODO: Implement pagination -->
-      <!-- TODO: Add loading and error states -->
-      
-      <p class="placeholder-text">
-        🚧 This is where you'll implement the campaign list view.<br>
-        Check ASSESSMENT.md for detailed requirements.
-      </p>
+
+      <search-bar class="mb-4" v-model="campaignStore.search" placeholder="Search campaigns..." />
+
+      <campaign-list-display :campaigns="campaignStore.campaigns" :loading="campaignStore.loading" :error="campaignStore.error" />
+
+      <pagination
+        :pagination="campaignStore.pagination"
+        :page-sizes="[3, 5, 10]"
+        @page="onPageChange"
+        @limit="onLimitChange"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-// TODO: Implement component logic
+import CampaignListDisplay from '../components/campaigns/CampaignListDisplay.vue';
+import Pagination from '../components/core/Pagination.vue';
+import SearchBar from '../components/core/SearchBar.vue';
+import { onMounted, watch } from 'vue'
+import { useCampaignStore } from '../stores/campaigns';
+
+const campaignStore = useCampaignStore();
+
+onMounted(async () => {
+  await campaignStore.fetchCampaigns();
+});
+
+// Refetch campaigns when search or limit changes
+watch(
+  () => [campaignStore.search, campaignStore.limit],
+  async () => {
+    await campaignStore.fetchCampaigns();
+  }
+);
+
+function onPageChange(newPage) {
+  campaignStore.page = newPage;
+  campaignStore.fetchCampaigns();
+}
+
+function onLimitChange(newLimit) {
+  campaignStore.limit = newLimit;
+  campaignStore.page = 1; // Reset to first page
+  campaignStore.fetchCampaigns();
+}
 </script>
 
 <style scoped>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -44,31 +68,9 @@
   font-size: 2rem;
 }
 
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: #0066cc;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #0052a3;
-}
-
-.placeholder-text {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #666;
-  font-size: 1.1rem;
-  line-height: 1.6;
+.search-container {
+  padding: 1rem;
+  background-color: var(--color-primary-active);
+  border-radius: 8px;
 }
 </style>

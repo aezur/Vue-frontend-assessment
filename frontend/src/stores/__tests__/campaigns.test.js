@@ -65,14 +65,15 @@ describe("useCampaignStore", () => {
   });
 
   describe("fetchCampaignById", () => {
-    it("should fetch single campaign and set as current", async () => {
+    it("should fetch single campaign and add to store", async () => {
       const mockCampaign = { id: "1", name: "Campaign 1", status: "active" };
       campaignService.getCampaignById.mockResolvedValue(mockCampaign);
 
       const store = useCampaignStore();
-      await store.fetchCampaignById("1");
+      const result = await store.fetchCampaignById("1");
 
-      expect(store.currentCampaign).toEqual(mockCampaign);
+      expect(result).toEqual(mockCampaign);
+      expect(store.campaigns).toContainEqual(mockCampaign);
       expect(store.error).toBeNull();
     });
 
@@ -84,7 +85,6 @@ describe("useCampaignStore", () => {
       const store = useCampaignStore();
       await store.fetchCampaignById("999");
 
-      expect(store.currentCampaign).toBeNull();
       expect(store.error).toBeTruthy();
     });
 
@@ -138,10 +138,9 @@ describe("useCampaignStore", () => {
   });
 
   describe("updateCampaign", () => {
-    it("should update campaign in store and currentCampaign if needed", async () => {
+    it("should update campaign in store", async () => {
       const store = useCampaignStore();
       const original = { id: "1", name: "Original", status: "draft" };
-      store.currentCampaign = { ...original };
       store.campaigns = [{ ...original }];
 
       const updates = { name: "Updated" };
@@ -152,7 +151,6 @@ describe("useCampaignStore", () => {
       await store.updateCampaign("1", updates);
 
       expect(store.campaigns[0]).toEqual(serverResponse);
-      expect(store.currentCampaign).toEqual(serverResponse);
     });
 
     it("should set error on update failure", async () => {
@@ -167,18 +165,16 @@ describe("useCampaignStore", () => {
   });
 
   describe("deleteCampaign", () => {
-    it("should remove campaign from store and clear currentCampaign if needed", async () => {
+    it("should remove campaign from store", async () => {
       const store = useCampaignStore();
       store.campaigns = [
         { id: "1", name: "Campaign 1" },
         { id: "2", name: "Campaign 2" },
       ];
-      store.currentCampaign = { id: "1", name: "Campaign 1" };
       campaignService.deleteCampaign.mockResolvedValue();
       await store.deleteCampaign("1");
       expect(store.campaigns).toHaveLength(1);
       expect(store.campaigns[0].id).toBe("2");
-      expect(store.currentCampaign).toBeNull();
     });
 
     it("should set error on delete failure", async () => {

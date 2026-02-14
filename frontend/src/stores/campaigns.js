@@ -70,8 +70,6 @@ export const useCampaignStore = defineStore("campaigns", () => {
       if (err.status === 404) {
         error.value = "Campaign not found";
       }
-
-      throw err;
     } finally {
       loading.value = false;
     }

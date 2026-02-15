@@ -10,7 +10,9 @@
     </header>
 
     <main class="app-main">
-      <router-view />
+      <Transition name="fade" mode="out-in">
+        <router-view :key="$route.fullPath" />
+      </Transition>
     </main>
 
     <footer class="app-footer">

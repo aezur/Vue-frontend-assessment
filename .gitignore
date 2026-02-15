@@ -9,8 +9,6 @@ build/
 */build/
 
 # Environment files
-.env
-.env.local
 .env.*.local
 
 # IDE
@@ -30,3 +28,4 @@ logs/
 
 # Testing
 coverage/
+config.bat

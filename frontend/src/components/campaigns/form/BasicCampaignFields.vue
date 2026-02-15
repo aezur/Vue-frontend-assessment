@@ -4,10 +4,14 @@
     :key="row.map((f) => f.name).join('-')"
     class="form-row"
   >
-    <!-- 2-col fields -->
     <div v-for="field in row" :key="field.name" class="form-group">
       <label>{{ field.label }}</label>
-      <Field v-if="field.type === 'select'" :name="field.name" as="select">
+      <Field
+        v-if="field.type === 'select'"
+        :name="field.name"
+        as="select"
+        :disabled="disabled"
+      >
         <option v-for="option in field.options" :key="option" :value="option">
           {{ option.charAt(0).toUpperCase() + option.slice(1) }}
         </option>
@@ -18,47 +22,48 @@
         type="number"
         :min="field.min"
         :step="field.step"
+        :disabled="disabled"
       />
-      <Field v-else-if="field.type === 'date'" :name="field.name" type="date" />
-      <Field v-else :name="field.name" type="text" />
+      <Field
+        v-else-if="field.type === 'date'"
+        :name="field.name"
+        type="date"
+        :disabled="disabled"
+      />
+      <Field v-else :name="field.name" type="text" :disabled="disabled" />
       <ErrorMessage :name="field.name" class="error-message" />
     </div>
   </div>
   <!-- Single-column fields -->
   <div v-for="field in singleFields" :key="field.name" class="form-group">
     <label>{{ field.label }}</label>
-    <Field :name="field.name" :as="field.type" />
+    <Field :name="field.name" :as="field.type" :disabled="disabled" />
     <ErrorMessage :name="field.name" class="error-message" />
   </div>
 </template>
 
 <script setup>
 import { Field, ErrorMessage } from "vee-validate";
+import { computed } from "vue";
+import {
+  CREATE_FORM_ROWS,
+  EDIT_FORM_ROWS,
+  CREATE_SINGLE_FIELDS,
+  EDIT_SINGLE_FIELDS,
+} from "@/constants/formFields";
 
-const formRows = [
-  [
-    { name: "name", label: "Name", type: "text" },
-    {
-      name: "status",
-      label: "Status",
-      type: "select",
-      options: ["draft", "active", "paused", "completed"],
-    },
-  ],
-  [
-    { name: "budget", label: "Budget", type: "number", min: 0, step: 0.01 },
-    { name: "spent", label: "Spent", type: "number", min: 0, step: 0.01 },
-  ],
-  [
-    { name: "startDate", label: "Start Date", type: "date" },
-    { name: "endDate", label: "End Date", type: "date" },
-  ],
-];
+const props = defineProps({
+  disabled: { type: Boolean, default: false },
+  mode: { type: String, default: "create" },
+});
 
-const singleFields = [
-  { name: "description", label: "Description", type: "textarea" },
-  { name: "targetAudience", label: "Target Audience", type: "textarea" },
-];
+const formRows = computed(() => {
+  return props.mode === "create" ? CREATE_FORM_ROWS : EDIT_FORM_ROWS;
+});
+
+const singleFields = computed(() => {
+  return props.mode === "create" ? CREATE_SINGLE_FIELDS : EDIT_SINGLE_FIELDS;
+});
 </script>
 
 <style scoped>

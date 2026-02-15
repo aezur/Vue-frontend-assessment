@@ -1,22 +1,18 @@
 <template>
   <Form
-    v-slot="{ meta }"
     :key="props.mode"
     :validation-schema="validationSchema"
     :initial-values="props.initialValues"
     @submit="onSubmit"
   >
-    <basic-campaign-fields />
+    <basic-campaign-fields :disabled="props.submitting" :mode="props.mode" />
 
-    <template v-if="props.mode === 'edit'">
-      <metrics-fields />
-    </template>
 
     <Button
       type="submit"
       class="submit-button"
-      :loading="meta.submitting"
-      :disabled="meta.submitting"
+      :loading="props.submitting"
+      :disabled="props.submitting"
     >
       {{ props.mode === "create" ? "Create" : "Update" }}
     </Button>
@@ -32,13 +28,15 @@ import {
 } from "@/validators/campaign";
 import { computed } from "vue";
 import BasicCampaignFields from "./BasicCampaignFields.vue";
-import MetricsFields from "./MetricsFields.vue";
 import Button from "@/components/core/BaseButton.vue";
 
 const props = defineProps({
   mode: { type: String, default: "create" },
   initialValues: { type: Object, required: true },
+  submitting: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(["submit"]);
 
 const validationSchema = computed(() =>
   toTypedSchema(
@@ -46,7 +44,6 @@ const validationSchema = computed(() =>
   ),
 );
 
-const emit = defineEmits(["submit"]);
 function onSubmit(values) {
   emit("submit", values);
 }

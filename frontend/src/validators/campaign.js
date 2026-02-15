@@ -42,7 +42,6 @@ export const CampaignSchema = CampaignBaseSchema.refine(
 
 export const CreateCampaignSchema = CampaignBaseSchema.omit({
   id: true,
-  metrics: true,
   history: true,
   createdAt: true,
   updatedAt: true,

@@ -6,11 +6,11 @@
         {{ mode === "edit" ? "Edit Campaign" : "Create Campaign" }}
       </h1>
 
-      <!-- Wait until campaign is loaded in edit mode -->
       <CampaignsForm
         v-if="mode === 'create' || campaignLoaded"
         :mode="mode"
         :initialValues="initialValues"
+        :submitting="formSubmitting"
         @submit="handleSubmit"
       />
 
@@ -53,11 +53,10 @@ const initialValues = ref({
   },
 });
 
-// composable
 const { campaign } = useCampaign();
 
-// track when campaign is loaded
 const campaignLoaded = ref(false);
+const formSubmitting = ref(false);
 
 watch(
   campaign,
@@ -83,6 +82,7 @@ watch(
 );
 
 async function handleSubmit(data) {
+  formSubmitting.value = true;
   try {
     let campaignId;
     if (mode.value === "create") {
@@ -95,6 +95,8 @@ async function handleSubmit(data) {
     router.push({ name: "campaign-detail", params: { id: campaignId } });
   } catch (error) {
     console.error("Error submitting campaign:", error);
+  } finally {
+    formSubmitting.value = false;
   }
 }
 </script>

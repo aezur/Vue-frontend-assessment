@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { formatCurrency, formatDate } from "../../utils/formatters";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 
 defineProps({
   campaign: {

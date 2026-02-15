@@ -38,12 +38,12 @@
 </template>
 
 <script setup>
-import CampaignListDisplay from "../components/campaigns/CampaignListDisplay.vue";
-import Pagination from "../components/core/PaginationControl.vue";
-import SearchBar from "../components/core/SearchBar.vue";
-import SearchFilters from "../components/campaigns/SearchFilters.vue";
+import CampaignListDisplay from "@/components/campaigns/CampaignListDisplay.vue";
+import Pagination from "@/components/core/PaginationControl.vue";
+import SearchBar from "@/components/core/SearchBar.vue";
+import SearchFilters from "@/components/campaigns/SearchFilters.vue";
+import { useCampaignStore } from "@/stores/campaigns";
 import { onMounted, watch } from "vue";
-import { useCampaignStore } from "../stores/campaigns";
 
 const campaignStore = useCampaignStore();
 

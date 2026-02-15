@@ -6,22 +6,22 @@ const router = createRouter({
     {
       path: "/",
       name: "campaigns",
-      component: () => import("../views/CampaignList.vue"),
+      component: () => import("@/views/CampaignList.vue"),
     },
     {
       path: "/campaigns/:id",
       name: "campaign-detail",
-      component: () => import("../views/CampaignDetail.vue"),
+      component: () => import("@/views/CampaignDetail.vue"),
     },
     {
       path: "/campaigns/new",
       name: "campaign-create",
-      component: () => import("../views/CampaignForm.vue"),
+      component: () => import("@/views/CampaignForm.vue"),
     },
     {
       path: "/campaigns/:id/edit",
       name: "campaign-edit",
-      component: () => import("../views/CampaignForm.vue"),
+      component: () => import("@/views/CampaignForm.vue"),
     },
   ],
 });

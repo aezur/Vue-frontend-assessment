@@ -11,9 +11,9 @@
       <metrics-fields />
     </template>
 
-    <button type="submit" class="submit-button">
+    <Button type="submit" class="submit-button">
       {{ props.mode === "create" ? "Create" : "Update" }}
-    </button>
+    </Button>
   </Form>
 </template>
 
@@ -27,6 +27,7 @@ import {
 import { computed } from "vue";
 import BasicCampaignFields from "./form/BasicCampaignFields.vue";
 import MetricsFields from "./form/MetricsFields.vue";
+import Button from "@/components/core/BaseButton.vue";
 
 const props = defineProps({
   mode: { type: String, default: "create" },

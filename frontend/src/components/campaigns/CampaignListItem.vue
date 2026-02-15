@@ -1,5 +1,13 @@
 <template>
-  <li class="campaign-list-item" @click="onClick">
+  <li
+    class="campaign-list-item"
+    @click="handleClick"
+    @keydown="onKeydown"
+    @keyup="onKeyup"
+    tabindex="0"
+    role="button"
+    :aria-label="campaign.name"
+  >
     <h3 :style="{ viewTransitionName: `item-title-${campaign.id}` }">
       {{ campaign.name }}
     </h3>
@@ -14,8 +22,9 @@
 
 <script setup>
 import { formatCurrency, formatDate } from "@/utils/formatters";
+import { toRefs } from "vue";
 
-defineProps({
+const props = defineProps({
   campaign: {
     type: Object,
     required: true,
@@ -25,6 +34,38 @@ defineProps({
     required: false,
   },
 });
+
+const { campaign, onClick } = toRefs(props);
+
+const emit = defineEmits(["click"]);
+
+function handleClick(event) {
+  // prefer not to rely on the KeyboardEvent payload for parent handlers
+  try {
+    if (onClick && typeof onClick.value === "function") {
+      onClick.value();
+    }
+    emit("click", campaign.value);
+  } catch (e) {
+    // swallow to avoid unhandled native handler errors
+    console.error(e);
+  }
+}
+
+function onKeydown(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    handleClick();
+  }
+}
+
+function onKeyup(event) {
+  // Space is usually activated on keyup for buttons - handle here to avoid double-activation
+  if (event.key === " " || event.key === "Spacebar" || event.key === "Space") {
+    event.preventDefault();
+    handleClick();
+  }
+}
 </script>
 
 <style scoped>
@@ -43,6 +84,12 @@ defineProps({
   background-color: var(--color-bg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+
+.campaign-list-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(100, 108, 255, 0.18);
+  border-color: var(--color-primary-accent);
 }
 
 .campaign-list-item:active {

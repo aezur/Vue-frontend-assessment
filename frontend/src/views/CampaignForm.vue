@@ -1,6 +1,7 @@
 <template>
   <div class="campaign-form">
     <div class="container">
+      <BackButton class="mb-2" />
       <h1 class="mb-4">
         {{ mode === "edit" ? "Edit Campaign" : "Create Campaign" }}
       </h1>
@@ -19,8 +20,9 @@
 </template>
 
 <script setup>
-import CampaignsForm from "@/components/campaigns/CampaignsForm.vue";
+import CampaignsForm from "@/components/campaigns/form/CampaignsForm.vue";
 import LoadingSpinner from "@/components/core/LoadingSpinner.vue";
+import BackButton from "@/components/core/BackButton.vue";
 import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useCampaignStore } from "@/stores/campaigns";

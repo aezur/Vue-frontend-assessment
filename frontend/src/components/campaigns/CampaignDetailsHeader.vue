@@ -1,9 +1,7 @@
 <template>
   <div class="header mb-4">
-    <div class="header-top mt-1">
-      <div @click="back" class="header-btn">
-        <PhArrowLeft :size="16" /><span>Back</span>
-      </div>
+    <div class="header-top mt-1 mb-2">
+      <BackButton class="header-btn" />
       <router-link :to="`/campaigns/${campaign.id}/edit`" class="button">
         <PhPencilSimple :size="12" class="mr-2" /><span>Edit Campaign</span>
       </router-link>
@@ -31,11 +29,11 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { PhArrowLeft, PhPencilSimple } from "@phosphor-icons/vue";
+import { PhPencilSimple } from "@phosphor-icons/vue";
 import CampaignStatusPill from "./CampaignStatusPill.vue";
 import DateDisplay from "@/components/core/DateDisplay.vue";
 import AudienceDisplay from "./AudienceDisplay.vue";
+import BackButton from "@/components/core/BackButton.vue";
 
 defineProps({
   campaign: {
@@ -43,12 +41,6 @@ defineProps({
     required: true,
   },
 });
-
-const router = useRouter();
-
-function back() {
-  router.back();
-}
 </script>
 
 <style scoped>

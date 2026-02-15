@@ -1,5 +1,6 @@
 <template>
   <Form
+    v-slot="{ meta }"
     :key="props.mode"
     :validation-schema="validationSchema"
     :initial-values="props.initialValues"
@@ -11,7 +12,12 @@
       <metrics-fields />
     </template>
 
-    <Button type="submit" class="submit-button">
+    <Button
+      type="submit"
+      class="submit-button"
+      :loading="meta.submitting"
+      :disabled="meta.submitting"
+    >
       {{ props.mode === "create" ? "Create" : "Update" }}
     </Button>
   </Form>
@@ -27,6 +33,7 @@ import {
 import { computed } from "vue";
 import BasicCampaignFields from "./BasicCampaignFields.vue";
 import MetricsFields from "./MetricsFields.vue";
+import Button from "@/components/core/BaseButton.vue";
 
 const props = defineProps({
   mode: { type: String, default: "create" },

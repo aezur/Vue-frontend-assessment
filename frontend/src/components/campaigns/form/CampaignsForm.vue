@@ -11,9 +11,9 @@
       <metrics-fields />
     </template>
 
-    <button type="submit" class="submit-button">
+    <Button type="submit" class="submit-button">
       {{ props.mode === "create" ? "Create" : "Update" }}
-    </button>
+    </Button>
   </Form>
 </template>
 

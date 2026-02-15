@@ -8,13 +8,9 @@
     v-bind="$attrs"
     @click="handleClick"
   >
-    <template v-if="loading">
-      <span class="button__spinner" aria-hidden="true"></span>
-      <span class="sr-only">Loading...</span>
-    </template>
-    <template v-else>
-      <slot />
-    </template>
+    <span v-if="loading" class="button__spinner" aria-hidden="true"></span>
+    <slot />
+    <span v-if="loading" class="sr-only">Loading...</span>
   </button>
 </template>
 
@@ -22,11 +18,20 @@
 import { computed } from "vue";
 
 const props = defineProps({
+  /**
+   * Button size variant
+   * @type {'sm' | 'md' | 'lg'}
+   */
+
   size: {
     type: String,
     default: "md",
     validator: (v) => ["sm", "md", "lg"].includes(v),
   },
+  /**
+   * Button style variant
+   * @type {'primary' | 'secondary' | 'outline'}
+   */
   variant: {
     type: String,
     default: "primary",

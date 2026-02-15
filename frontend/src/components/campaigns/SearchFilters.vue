@@ -44,7 +44,7 @@ import {
   PhNotePencil,
   PhFunnel,
 } from "@phosphor-icons/vue";
-import Button from "@/components/core/Button.vue";
+import Button from "@/components/core/BaseButton.vue";
 
 const props = defineProps({
   filterValue: {

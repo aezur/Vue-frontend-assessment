@@ -6,7 +6,7 @@
 
 <script setup>
 import { computed } from "vue";
-import Pill from "../core/Pill.vue";
+import Pill from "@/components/core/PillBox.vue";
 
 const props = defineProps({
   status: {

@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import List from "@/components/core/List.vue";
+import List from "@/components/core/BaseList.vue";
 import CampaignListItem from "./CampaignListItem.vue";
 import LoadingSpinner from "@/components/core/LoadingSpinner.vue";
 import ErrorMessage from "@/components/core/ErrorMessage.vue";

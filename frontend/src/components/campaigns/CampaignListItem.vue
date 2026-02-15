@@ -8,14 +8,27 @@
     role="button"
     :aria-label="campaign.name"
   >
-    <h3 :style="{ viewTransitionName: `item-title-${campaign.id}` }">
-      {{ campaign.name }}
-    </h3>
     <div class="campaign-details">
-      <p>Budget: {{ formatCurrency(campaign.budget) }}</p>
-      <p>Status: {{ campaign.status }}</p>
-      <p>Start Date: {{ formatDate(campaign.startDate) }}</p>
-      <p>End Date: {{ formatDate(campaign.endDate) }}</p>
+      <h3
+        :style="{ viewTransitionName: `item-title-${campaign.id}` }"
+        grid-area="name"
+      >
+        {{ campaign.name }}
+      </h3>
+      <p grid-area="budget">
+        <PhCurrencyCircleDollar class="icon" size="22" />
+        {{ formatCurrency(campaign.budget) }}
+      </p>
+      <p grid-area="dates">
+        <PhCalendarBlank class="icon" size="22" />
+        {{ formatDate(campaign.startDate) }} -
+        {{ formatDate(campaign.endDate) }}
+      </p>
+      <CampaignStatusPill
+        class="status-pill"
+        grid-area="status"
+        :status="campaign.status"
+      />
     </div>
   </li>
 </template>
@@ -23,6 +36,8 @@
 <script setup>
 import { formatCurrency, formatDate } from "@/utils/formatters";
 import { toRefs } from "vue";
+import CampaignStatusPill from "@/components/campaigns/CampaignStatusPill.vue";
+import { PhCurrencyCircleDollar, PhCalendarBlank } from "@phosphor-icons/vue";
 
 const props = defineProps({
   campaign: {
@@ -98,17 +113,27 @@ function onKeyup(event) {
 }
 
 .campaign-list-item h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
 }
 
 .campaign-list-item p {
-  margin: 0.25rem 0;
+  margin: 0;
 }
 
 .campaign-details {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas: "name budget dates status";
   gap: 1rem;
+}
+
+.status-pill {
+  justify-self: end;
+}
+
+.icon {
+  vertical-align: middle;
+  color: var(--color-primary);
+  margin-right: 8px;
 }
 </style>

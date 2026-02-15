@@ -19,7 +19,10 @@ defineProps({
 
 <style scoped>
 .pill {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: fit-content;
   padding: 4px 8px;
   border-radius: 16px;
   font-size: 0.8em;

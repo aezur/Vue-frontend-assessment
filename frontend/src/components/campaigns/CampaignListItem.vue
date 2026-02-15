@@ -39,10 +39,10 @@ const { campaign, onClick } = toRefs(props);
 
 const emit = defineEmits(["click"]);
 
-function handleClick(event) {
+function handleClick(_event) {
   // prefer not to rely on the KeyboardEvent payload for parent handlers
   try {
-    if (onClick && typeof onClick.value === "function") {
+    if (onClick.value && typeof onClick.value === "function") {
       onClick.value();
     }
     emit("click", campaign.value);
